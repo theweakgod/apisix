@@ -278,7 +278,7 @@ failed to limit req: WRONGPASS invalid username-password pair or user is disable
             if code >= 300 then
                 ngx.status = code
             end
-            ngx.say(body)
+            ngx.print(body)
         }
     }
 --- request
