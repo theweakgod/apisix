@@ -16,7 +16,7 @@
 --
 local redis             = require("apisix.utils.redis")
 local setmetatable      = setmetatable
-local util              = require("apisix.plugins.limit-conn.util")
+local util              = require("apisix.plugins.limit-req.util")
 
 local setmetatable  = setmetatable
 

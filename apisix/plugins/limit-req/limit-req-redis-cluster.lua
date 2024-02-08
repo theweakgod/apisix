@@ -16,7 +16,7 @@
 --
 local redis_cluster     = require("apisix.utils.rediscluster")
 local setmetatable      = setmetatable
-local util              = require("apisix.plugins.limit-conn.util")
+local util              = require("apisix.plugins.limit-req.util")
 
 local _M = {version = 0.1}
 
