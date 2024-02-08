@@ -235,7 +235,7 @@ failed to limit req: WRONGPASS invalid username-password pair or user is disable
                  [[{
                     "plugins": {
                         "limit-req": {
-                            "rate": -1,
+                            "rate": 0.1,
                             "burst": 0.1,
                             "rejected_code": 503,
                             "key": "remote_addr",
