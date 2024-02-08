@@ -216,9 +216,9 @@ passed
 
 
 
-=== TEST 6: exceeding the burst
---- pipelined_requests eval
-["GET /hello"]
+=== TEST 8: catch wrong pass
+--- request
+GET /hello
 --- error_code: 500
 --- error_log
 failed to limit req: WRONGPASS invalid username-password pair or user is disabled.
