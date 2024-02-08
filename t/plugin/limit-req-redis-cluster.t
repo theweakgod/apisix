@@ -45,7 +45,7 @@ __DATA__
                 burst = 0,
                 rejected_code = 503,
                 key = 'remote_addr',
-                counter_type = 'redis',
+                policy = 'redis',
                 redis_host = '127.0.0.1'
             })
             if not ok then
@@ -76,7 +76,7 @@ done
                             "burst": 1,
                             "rejected_code": 503,
                             "key": "remote_addr",
-                            "counter_type": "redis-cluster",
+                            "policy": "redis-cluster",
                             "redis_cluster_name": "test",
                             "redis_cluster_nodes": [
                                 "127.0.0.1:7000",
@@ -141,7 +141,7 @@ passed
                             "burst": 0.1,
                             "rejected_code": 503,
                             "key": "remote_addr",
-                            "counter_type": "redis-cluster",
+                            "policy": "redis-cluster",
                             "redis_cluster_name": "test",
                             "redis_cluster_nodes": [
                                 "127.0.0.1:5000",
@@ -194,7 +194,7 @@ passed
                             "burst": 0.1,
                             "rejected_code": 503,
                             "key": "remote_addr",
-                            "counter_type": "redis-cluster",
+                            "policy": "redis-cluster",
                             "redis_cluster_name": "test",
                             "redis_cluster_nodes": [
                                 "127.0.0.1:5000",
@@ -281,7 +281,7 @@ passed
                             "burst": 2,
                             "rejected_code": 503,
                             "key": "server_addr",
-                            "counter_type": "redis-cluster",
+                            "policy": "redis-cluster",
                             "redis_cluster_name": "test",
                             "redis_cluster_nodes": [
                                 "127.0.0.1:5000",
@@ -326,7 +326,7 @@ passed
                             "rate": 4,
                             "burst": 2,
                             "key": "remote_addr",
-                            "counter_type": "redis-cluster",
+                            "policy": "redis-cluster",
                             "redis_cluster_name": "test",
                             "redis_cluster_nodes": [
                                 "127.0.0.1:5000",
@@ -376,7 +376,7 @@ passed
                             "burst": 2,
                             "rejected_code": 403,
                             "key": "consumer_name",
-                            "counter_type": "redis-cluster",
+                            "policy": "redis-cluster",
                             "redis_cluster_name": "test",
                             "redis_cluster_nodes": [
                                 "127.0.0.1:5000",
@@ -463,7 +463,7 @@ apikey: auth-jack
                             "burst": 0.1,
                             "rejected_code": 403,
                             "key": "consumer_name",
-                            "counter_type": "redis-cluster",
+                            "policy": "redis-cluster",
                             "redis_cluster_name": "test",
                             "redis_cluster_nodes": [
                                 "127.0.0.1:5000",
@@ -508,7 +508,7 @@ apikey: auth-jack
                             "rate": 2,
                             "burst": 1,
                             "key": "consumer_name",
-                            "counter_type": "redis-cluster",
+                            "policy": "redis-cluster",
                             "redis_cluster_name": "test",
                             "redis_cluster_nodes": [
                                 "127.0.0.1:5000",

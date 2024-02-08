@@ -45,7 +45,7 @@ __DATA__
                 burst = 0,
                 rejected_code = 503,
                 key = 'remote_addr',
-                counter_type = 'redis',
+                policy = 'redis',
                 redis_host = '127.0.0.1'
             })
             if not ok then
@@ -76,7 +76,7 @@ done
                             "burst": 1,
                             "rejected_code": 503,
                             "key": "remote_addr",
-                            "counter_type": "redis",
+                            "policy": "redis",
                             "redis_host": "127.0.0.1"
                         }
                     },
@@ -134,8 +134,8 @@ passed
                             "burst": 0.1,
                             "rejected_code": 503,
                             "key": "remote_addr",
-                            "counter_type": "redis",
-                            "counter_type": "redis",
+                            "policy": "redis",
+                            "policy": "redis",
                             "redis_host": "127.0.0.1",
                             "redis_prefix": "limit_req",
                             "redis_port": 6379
@@ -186,7 +186,7 @@ passed
                             "burst": 0.1,
                             "rejected_code": 503,
                             "key": "remote_addr",
-                            "counter_type": "redis",
+                            "policy": "redis",
                             "redis_host": "127.0.0.1",
                             "redis_prefix": "limit_req",
                             "redis_port": 6379
@@ -271,7 +271,7 @@ passed
                             "burst": 2,
                             "rejected_code": 503,
                             "key": "server_addr",
-                            "counter_type": "redis",
+                            "policy": "redis",
                             "redis_host": "127.0.0.1",
                             "redis_prefix": "limit_req",
                             "redis_port": 6379
@@ -314,7 +314,7 @@ passed
                             "rate": 4,
                             "burst": 2,
                             "key": "remote_addr",
-                            "counter_type": "redis",
+                            "policy": "redis",
                             "redis_host": "127.0.0.1",
                             "redis_prefix": "limit_req",
                             "redis_port": 6379
@@ -362,7 +362,7 @@ passed
                             "burst": 2,
                             "rejected_code": 403,
                             "key": "consumer_name",
-                            "counter_type": "redis",
+                            "policy": "redis",
                             "redis_host": "127.0.0.1",
                             "redis_prefix": "limit_req",
                             "redis_port": 6379
@@ -447,7 +447,7 @@ apikey: auth-jack
                             "burst": 0.1,
                             "rejected_code": 403,
                             "key": "consumer_name",
-                            "counter_type": "redis",
+                            "policy": "redis",
                             "redis_host": "127.0.0.1",
                             "redis_prefix": "limit_req",
                             "redis_port": 6379
@@ -490,7 +490,7 @@ apikey: auth-jack
                             "rate": 2,
                             "burst": 1,
                             "key": "consumer_name",
-                            "counter_type": "redis",
+                            "policy": "redis",
                             "redis_host": "127.0.0.1",
                             "redis_prefix": "limit_req",
                             "redis_port": 6379
