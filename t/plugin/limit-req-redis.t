@@ -120,7 +120,7 @@ passed
 
 
 
-=== TEST 5: update plugin with redis prefix
+=== TEST 5: update plugin with username password
 --- config
     location /t {
         content_by_lua_block {
@@ -135,10 +135,10 @@ passed
                             "rejected_code": 503,
                             "key": "remote_addr",
                             "policy": "redis",
-                            "policy": "redis",
                             "redis_host": "127.0.0.1",
-                            "redis_prefix": "limit_req",
-                            "redis_port": 6379
+                            "redis_port": 6379,
+                            "redis_username": "alice",
+                            "redis_password": "somepassword"
                         }
                     },
                         "upstream": {
@@ -172,7 +172,7 @@ passed
 
 
 
-=== TEST 7: wrong type
+=== TEST 7: update plugin with username, wrong password
 --- config
     location /t {
         content_by_lua_block {
@@ -188,8 +188,58 @@ passed
                             "key": "remote_addr",
                             "policy": "redis",
                             "redis_host": "127.0.0.1",
-                            "redis_prefix": "limit_req",
-                            "redis_port": 6379
+                            "redis_port": 6379,
+                            "redis_username": "alice",
+                            "redis_password": "someerrorpassword"
+                        }
+                    },
+                        "upstream": {
+                            "nodes": {
+                                "127.0.0.1:1980": 1
+                            },
+                            "type": "roundrobin"
+                        },
+                        "uri": "/hello"
+                }]]
+                )
+
+            if code >= 300 then
+                ngx.status = code
+            end
+            ngx.print(body)
+        }
+    }
+--- request
+GET /t
+--- response_body
+passed
+
+
+
+=== TEST 8: catch wrong pass
+--- request
+GET /access_root_dir
+--- error_code: 500
+--- error_log
+failed to limit req: WRONGPASS invalid username-password pair or user is disabled.
+
+
+
+=== TEST 9: invalid route: missing redis_host
+--- config
+    location /t {
+        content_by_lua_block {
+            local t = require("lib.test_admin").test
+            local code, body = t('/apisix/admin/routes/1',
+                 ngx.HTTP_PUT,
+                 [[{
+                    "plugins": {
+                        "limit-req": {
+                            "rate": -1,
+                            "burst": 0.1,
+                            "rejected_code": 503,
+                            "key": "remote_addr",
+                            "policy": "redis",
                         }
                     },
                         "upstream": {
@@ -212,11 +262,11 @@ passed
 GET /t
 --- error_code: 400
 --- response_body
-{"error_msg":"failed to check the configuration of plugin limit-req err: property \"rate\" validation failed: expected -1 to be greater than 0"}
+{"error_msg":"failed to check the configuration of plugin limit-req err: then clause did not match"}
 
 
 
-=== TEST 8: disable plugin
+=== TEST 10: disable plugin
 --- config
     location /t {
         content_by_lua_block {
@@ -249,7 +299,7 @@ passed
 
 
 
-=== TEST 9: exceeding the burst
+=== TEST 11: exceeding the burst
 --- pipelined_requests eval
 ["GET /hello", "GET /hello", "GET /hello", "GET /hello"]
 --- error_code eval
@@ -257,7 +307,7 @@ passed
 
 
 
-=== TEST 10: set route (key: server_addr)
+=== TEST 12: set route (key: server_addr)
 --- config
     location /t {
         content_by_lua_block {
@@ -273,7 +323,6 @@ passed
                             "key": "server_addr",
                             "policy": "redis",
                             "redis_host": "127.0.0.1",
-                            "redis_prefix": "limit_req",
                             "redis_port": 6379
                         }
                     },
@@ -301,7 +350,7 @@ passed
 
 
 
-=== TEST 11: default rejected_code
+=== TEST 13: default rejected_code
 --- config
     location /t {
         content_by_lua_block {
@@ -316,7 +365,6 @@ passed
                             "key": "remote_addr",
                             "policy": "redis",
                             "redis_host": "127.0.0.1",
-                            "redis_prefix": "limit_req",
                             "redis_port": 6379
                         }
                     },
@@ -344,7 +392,7 @@ passed
 
 
 
-=== TEST 12: consumer binds the limit-req plugin and `key` is `consumer_name`
+=== TEST 14: consumer binds the limit-req plugin and `key` is `consumer_name`
 --- config
     location /t {
         content_by_lua_block {
@@ -364,7 +412,6 @@ passed
                             "key": "consumer_name",
                             "policy": "redis",
                             "redis_host": "127.0.0.1",
-                            "redis_prefix": "limit_req",
                             "redis_port": 6379
                         }
                     }
@@ -384,7 +431,7 @@ passed
 
 
 
-=== TEST 13: route add "key-auth" plugin
+=== TEST 15: route add "key-auth" plugin
 --- config
     location /t {
         content_by_lua_block {
@@ -419,7 +466,7 @@ passed
 
 
 
-=== TEST 14: not exceeding the burst
+=== TEST 16: not exceeding the burst
 --- pipelined_requests eval
 ["GET /hello", "GET /hello", "GET /hello"]
 --- more_headers
@@ -429,7 +476,7 @@ apikey: auth-jack
 
 
 
-=== TEST 15: update the limit-req plugin
+=== TEST 17: update the limit-req plugin
 --- config
     location /t {
         content_by_lua_block {
@@ -449,7 +496,6 @@ apikey: auth-jack
                             "key": "consumer_name",
                             "policy": "redis",
                             "redis_host": "127.0.0.1",
-                            "redis_prefix": "limit_req",
                             "redis_port": 6379
                         }
                     }
@@ -467,7 +513,7 @@ passed
 
 
 
-=== TEST 16: exceeding the burst
+=== TEST 18: exceeding the burst
 --- pipelined_requests eval
 ["GET /hello", "GET /hello", "GET /hello", "GET /hello"]
 --- more_headers
@@ -477,7 +523,7 @@ apikey: auth-jack
 
 
 
-=== TEST 17: key is consumer_name
+=== TEST 19: key is consumer_name
 --- config
     location /t {
         content_by_lua_block {
@@ -492,7 +538,6 @@ apikey: auth-jack
                             "key": "consumer_name",
                             "policy": "redis",
                             "redis_host": "127.0.0.1",
-                            "redis_prefix": "limit_req",
                             "redis_port": 6379
                         }
                     },
@@ -520,7 +565,7 @@ passed
 
 
 
-=== TEST 18: get "consumer_name" is empty
+=== TEST 20: get "consumer_name" is empty
 --- request
 GET /hello
 --- response_body
@@ -530,7 +575,7 @@ The value of the configured key is empty, use client IP instead
 
 
 
-=== TEST 19: delete consumer
+=== TEST 21: delete consumer
 --- config
     location /t {
         content_by_lua_block {
@@ -548,7 +593,7 @@ passed
 
 
 
-=== TEST 20: delete route
+=== TEST 22: delete route
 --- config
     location /t {
         content_by_lua_block {
@@ -566,7 +611,7 @@ passed
 
 
 
-=== TEST 21: check_schema failed (the `rate` attribute is equal to 0)
+=== TEST 23: check_schema failed (the `rate` attribute is equal to 0)
 --- config
     location /t {
         content_by_lua_block {
