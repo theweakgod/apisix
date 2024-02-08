@@ -73,3 +73,6 @@ function _M.incoming(self, red, key, commit)
     -- return the delay in seconds, as well as excess
     return excess / rate, excess / 1000
 end
+
+
+return _M
