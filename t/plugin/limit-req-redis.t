@@ -241,7 +241,7 @@ passed
 
 === TEST 8: catch wrong pass
 --- request
-GET /access_root_dir
+GET /hello
 --- error_code: 500
 --- error_log
 failed to limit req: WRONGPASS invalid username-password pair or user is disabled.
@@ -262,7 +262,7 @@ failed to limit req: WRONGPASS invalid username-password pair or user is disable
                             "burst": 0.1,
                             "rejected_code": 503,
                             "key": "remote_addr",
-                            "policy": "redis",
+                            "policy": "redis"
                         }
                     },
                         "upstream": {
