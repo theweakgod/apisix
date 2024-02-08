@@ -31,6 +31,29 @@ no_long_string();
 no_shuffle();
 no_root_location();
 
+
+add_block_preprocessor(sub {
+    my ($block) = @_;
+    my $port = $ENV{TEST_NGINX_SERVER_PORT};
+
+    my $config = $block->config // <<_EOC_;
+    location /access_root_dir {
+        content_by_lua_block {
+            local httpc = require "resty.http"
+            local hc = httpc:new()
+
+            local res, err = hc:request_uri('http://127.0.0.1:$port/limit_conn')
+            if res then
+                ngx.exit(res.status)
+            end
+        }
+    }
+_EOC_
+
+    $block->set_value("config", $config);
+});
+
+
 run_tests;
 
 __DATA__
@@ -218,7 +241,7 @@ passed
 
 === TEST 8: catch wrong pass
 --- request
-GET /hello
+GET /access_root_dir
 --- error_code: 500
 --- error_log
 failed to limit req: WRONGPASS invalid username-password pair or user is disabled.
