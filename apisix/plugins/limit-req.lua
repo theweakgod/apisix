@@ -14,10 +14,11 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 --
-local limit_req_new         = require("resty.limit.req").new
-local core                  = require("apisix.core")
-local redis_schema          = require("apisix.utils.redis-schema")
-local plugin_name           = "limit-req"
+local limit_req_new                     = require("resty.limit.req").new
+local core                              = require("apisix.core")
+local redis_schema                      = require("apisix.utils.redis-schema")
+local policy_to_additional_properties   = redis_schema.schema
+local plugin_name                       = "limit-req"
 local sleep = core.sleep
 
 local redis_single_new
