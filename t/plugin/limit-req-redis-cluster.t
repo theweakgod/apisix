@@ -84,7 +84,7 @@ done
                                 "127.0.0.1:7002"
                             ],
                             "redis_cluster_ssl": true,
-                            "redis_cluster_ssl_verify": true
+                            "redis_cluster_ssl_verify": false
                         }
                     },
                         "upstream": {
