@@ -62,7 +62,7 @@ done
 
 
 
-=== TEST 2: add plugin with redis cluster with verify
+=== TEST 2: add plugin with redis cluster with ssl
 --- config
     location /t {
         content_by_lua_block {
@@ -127,7 +127,7 @@ passed
 
 
 
-=== TEST 5: update plugin with redis prefix and no verify
+=== TEST 5: update plugin
 --- config
     location /t {
         content_by_lua_block {
