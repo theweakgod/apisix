@@ -106,7 +106,7 @@ end
 local function create_limit_obj(conf)
     if conf.policy == "local" then
         core.log.info("create new limit-req plugin instance")
-        return limit_req_new(shdict_name, conf.rate, conf.burst)
+        return limit_req_new("plugin-limit-req", conf.rate, conf.burst)
     elseif conf.policy == "redis" then
 
         core.log.info("create new limit-req redis plugin instance")
